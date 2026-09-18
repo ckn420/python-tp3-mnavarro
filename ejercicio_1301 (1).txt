@@ -1,0 +1,45 @@
+Ejercicio 1301
+Predicción de Código 1
+
+La consigna pregunta qué pasa si corremos este programa ingresando a=2 y b=3:
+
+# funciones.py:
+def prueba(x,y):
+    print(a,b)
+    x = x + 1
+    y = y + 2
+    return(x,y)
+
+# programa.py:
+from funciones import *
+
+a = int(input("Ingrese un número entero: "))
+b = int(input("Ingrese un número entero: "))
+
+for i in range(3):
+    print(prueba(a,b))
+    a = a + 2
+    b = b + 2
+
+Como funciones.py y programa.py son archivos separados, cuando programa.py hace "from funciones import *" sólo trae la función prueba, no las variables a y b que están definidas en programa.py. Una función queda atada al espacio de variables globales del archivo donde fue definida, no del archivo que la importa después. Entonces cuando prueba(x,y) intenta hacer print(a,b), Python busca a y b adentro de funciones.py, no las encuentra, y tira NameError.
+
+Lo que se ve en la consola es esto:
+
+Ingrese un número entero: 2
+Ingrese un número entero: 3
+Traceback (most recent call last):
+  ...
+NameError: name 'a' is not defined
+
+Se rompe apenas entra por primera vez al for, antes de imprimir cualquier otra cosa.
+
+Un detalle que puede confundir: si uno prueba este mismo código pegado en un solo archivo, sin separarlo de verdad en dos módulos, ahí sí funciona, porque a y b terminan compartiendo el mismo espacio global que la función. Pero acá el enunciado plantea dos archivos distintos, así que la respuesta correcta es que el programa tira error.
+
+Si en vez de print(a,b) la función tuviera print(x,y), usando los parámetros en lugar de las variables globales, ahí sí imprimiría en cada vuelta:
+
+2 3
+(3, 5)
+4 5
+(5, 7)
+6 7
+(7, 9)

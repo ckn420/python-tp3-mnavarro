@@ -1,0 +1,28 @@
+Ejercicio 1302
+Predicción de Código 2: Scope y Retornos
+
+Acá preguntan con qué valores quedan a y b después de correr el programa, ingresando a=2 y b=3:
+
+# funciones.py:
+def prueba(a,b):
+    a = a + 1
+    b = b + 2
+    return(a,b)
+
+# programa.py:
+from funciones import *
+
+a = int(input("Ingrese un numero entero: "))
+b = int(input("Ingrese un numero entero: "))
+for i in range(3):
+    a, b = (prueba(a,b))
+    a = a + 2
+    b = b + 2
+
+Los parámetros a y b de la función son copias: lo que se modifica adentro de prueba no cambia directamente las variables de programa.py. Pero como el programa hace "a, b = prueba(a,b)", sí termina quedándose con lo que la función devuelve con return.
+
+En cada vuelta pasa lo mismo: entra con los valores actuales, la función les suma 1 y 2 y los devuelve, y después el programa les suma 2 más a cada uno.
+
+Arranca con a=2, b=3. En la primera vuelta entra (2,3), la función devuelve (3,5) y después del +2 queda a=5, b=7. En la segunda vuelta entra (5,7), devuelve (6,9) y después del +2 queda a=8, b=11. En la tercera vuelta entra (8,11), devuelve (9,13) y después del +2 queda a=11, b=15.
+
+Entonces al final quedan a=11 y b=15. Como en el programa no hay ningún print, no se ve nada impreso en pantalla, esos valores quedan guardados nada más.

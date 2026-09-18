@@ -1,0 +1,52 @@
+Ejercicio 1304
+Predicción de Código 4: Parámetros vs Variables Globales
+
+Piden elegir cuál de estos tres programas imprime "La media de 3 y 5 es: 4.0":
+
+----- OPCIÓN 1 -----
+# funciones.py:
+def escribe_media():
+    media = (a + b) / 2
+    print("La media de ", a, " y", b, " es: ", media)
+    return
+
+# programa.py:
+from funciones import *
+a = 3
+b = 5
+escribe_media()
+
+----- OPCIÓN 2 -----
+# funciones.py:
+def escribe_media(x, y):
+    media = (x + y) / 2
+    print("La media de ", a, " y ", b, " es: ", media)
+    return
+
+# programa.py:
+from funciones import *
+a = 3
+b = 5
+escribe_media(a, b)
+
+----- OPCIÓN 3 -----
+# funciones.py:
+def calcula_media(x, y):
+    resultado = (x + y) / 2
+    return resultado
+
+# programa.py:
+from funciones import *
+a = 3
+b = 5
+print("La media de ", a, " y ", b, " es: ", calcula_media(a, b))
+
+De las tres, la única que imprime bien es la opción 3.
+
+La opción 1 tira NameError: la función escribe_media() no recibe ningún parámetro, y adentro usa a y b directamente, pero esas variables están definidas en programa.py, no en funciones.py, así que ni siquiera llega a calcular la media.
+
+La opción 2 también rompe, pero por otro motivo. Ahí sí se le pasan x e y como parámetros, y la media se calcula bien con esos valores, el problema es el print de adentro de la función, que usa a y b en vez de x e y. Es la trampa del ejercicio: pasás los datos por parámetro pero después, en el mismo print, terminás usando las variables globales, que la función no puede ver.
+
+La opción 3 es la que funciona, porque calcula_media(x, y) sólo trabaja con lo que recibe por parámetro y devuelve el resultado con return. El print que arma el mensaje está en programa.py, donde a y b sí existen porque se definieron ahí mismo.
+
+Un detalle: como print separa cada argumento con un espacio, la salida real de la opción 3 queda con espacios dobles, "La media de  3  y  5  es:  4.0", que es justo lo que da a entender el enunciado.

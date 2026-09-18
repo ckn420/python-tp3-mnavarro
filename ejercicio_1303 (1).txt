@@ -1,0 +1,38 @@
+Ejercicio 1303
+Predicción de Código 3: Validación y Ciclos
+
+El código es este:
+
+# funciones.py
+def validar_dni(dni):
+    cantidad = 0
+    while dni != 0:
+        cantidad = cantidad + 1
+        dni = dni // 10
+    return cantidad == 8
+
+# programa.py:
+from funciones import *
+mayor =- 1
+dni = int(input("DNI: "))
+while dni != 0:
+    if validar_dni(dni):
+        nombre = input("Nombre: ")
+        edad = int(input("Edad: "))
+        if edad > mayor:
+            mayor = edad
+            nombre_mayor = nombre
+    else:
+        print("DNI inválido. Vuelva a ingresar.")
+    dni = int(input("DNI: "))
+print("Nombre de la persona mayor:", nombre_mayor)
+
+validar_dni cuenta cuántos dígitos tiene el número que recibe, dividiéndolo por 10 hasta que llega a 0, y devuelve True sólo si son exactamente 8 dígitos.
+
+La línea "mayor =- 1" en realidad es "mayor = -1", con el signo pegado al número, no un -=. Se usa como valor inicial para que cualquier edad que se ingrese después sea mayor a eso.
+
+Con los datos del ejemplo, el DNI 34567890 tiene 8 dígitos, entonces pasa la validación: se cargan nombre y edad de María Giménez, 18 años, y como 18 es mayor a -1 queda como la persona mayor por ahora. Después el DNI 28907678 también tiene 8 dígitos, entra Carlos Alberto Sánchez con 21 años, y como 21 es mayor a 18 pasa a ser él la persona mayor. El 0 corta el while. Entonces en pantalla se ve todo lo que se va pidiendo y al final: "Nombre de la persona mayor: Carlos Alberto Sánchez".
+
+Si en cambio se ingresa el DNI 345678233, tiene 9 dígitos, entonces validar_dni devuelve False y el programa imprime "DNI inválido. Vuelva a ingresar." Ahí no pide nombre ni edad, directamente vuelve a pedir otro DNI.
+
+Hay un caso límite para tener en cuenta: si ese fuera el único DNI que se ingresa y después se pone 0 para cortar el while, la variable nombre_mayor nunca llegó a asignarse, y el print final tira NameError porque usa una variable que no existe.
